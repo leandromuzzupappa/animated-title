@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValueMap } from "lit";
+import { LitElement, html, PropertyValueMap, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import gsap from "gsap";
 
@@ -10,21 +10,58 @@ export class AnimatedTitle extends LitElement {
     };
   }
 
+  static override get styles() {
+    return css`
+      .animated-title {
+        white-space: pre;
+      }
+      .char {
+        display: inline-block;
+      }
+    `;
+  }
+
   protected override firstUpdated(
     _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
   ): void {
-    const algo = this.shadowRoot?.querySelector(".animated-title");
-    if (algo) {
-      gsap.to(algo, {
-        y: 200,
+    const titleWrapper = this.shadowRoot?.querySelector(".animated-title");
+    const titleChars = this.shadowRoot?.querySelectorAll(".char");
+    if (titleWrapper) {
+      titleChars?.forEach((char) => {
+        char?.addEventListener("mouseenter", () => {
+          gsap.to(char, {
+            transformOrigin: "50% 100%",
+            y: 0,
+            scale: 1.2,
+            rotate: -5,
+          });
+        });
+
+        char?.addEventListener("mouseleave", () => {
+          gsap.to(char, {
+            transformOrigin: "50% 100%",
+            y: 0,
+            scale: 1,
+            rotate: 0,
+          });
+        });
       });
     }
-    console.log(algo);
+    console.log(titleWrapper);
   }
 
   override render() {
-    return html` <h1 class="animated-title">${this.textContent}</h1> `;
+    return html`
+      <h1 class="animated-title">${splitChars(this.textContent)}</h1>
+    `;
   }
+}
+
+function splitChars(text: string | null) {
+  const chars = text
+    ?.split("")
+    .map((char) => html`<div class="char">${char}</div>`);
+  return chars;
 }
 
 declare global {
