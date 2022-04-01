@@ -16,6 +16,11 @@ export default {
       compact: true,
     },
     {
+      file: "./public/assets/scripts/animated-title.bundle.js",
+      format: "es",
+      compact: true,
+    },
+    {
       file: "./build/animated-title.iife.js",
       format: "iife",
       name: "RoundSlider",
