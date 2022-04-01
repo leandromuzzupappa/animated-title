@@ -34,6 +34,7 @@ export class AnimatedTitle extends LitElement {
             y: 0,
             scale: 1.2,
             rotate: -5,
+            color: "var(--clr-primary-hover)",
           });
         });
 
@@ -43,6 +44,7 @@ export class AnimatedTitle extends LitElement {
             y: 0,
             scale: 1,
             rotate: 0,
+            color: "var(--clr-primary)",
           });
         });
       });
